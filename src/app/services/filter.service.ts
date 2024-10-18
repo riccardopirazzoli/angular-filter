@@ -110,17 +110,17 @@ export class FilterService {
   ageSort() {
     this.ageOrder.set(this.ageOrder() === 'asc' ? 'disc' : 'asc');
   }
-  
+
 //ordiniamo il signal weightOrder in modo crescente o decrescente
   weightSort() {
     this.weightOrder.set(this.weightOrder() === 'asc' ? 'disc' : 'asc');
   }
 
 //Metodo per cambiare l'età degli umani
-  changeAgeHuman(amount:number){
+  changeAgeHuman(change:number){
     this.humansSignal.update((humans)=>
     humans.map((human)=>{
-      const newAge = human.age + amount
+      const newAge = human.age + change
       if(newAge<1 || newAge>100)
         return human
       else{
@@ -129,10 +129,10 @@ export class FilterService {
     }))
   }
 //Metodo per cambiare Lunghezza delle bestie
-  changeLengthBeast(amount:number){
+  changeLengthBeast(change:number){
     this.beastsSignal.update((beasts)=>
       beasts.map((beast)=>{
-        const newLength = beast.size.length + amount
+        const newLength = beast.size.length + change
         if(newLength<1 || newLength>20)
           return beast
         else{

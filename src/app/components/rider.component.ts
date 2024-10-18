@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <p>
-      rider works!
-    </p>
+    
   `,
   styles: ``
 })
