@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FilterComponent } from "./components/filter.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FilterComponent],
   template: `
-    <h1>Welcome to {{title}}!</h1>
+    <app-filter></app-filter>
 
     <router-outlet />
   `,
