@@ -3,10 +3,9 @@ import { HUMANS } from '../data/human.const';
 import { BEASTS } from '../data/beast.const';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FilterService {
-
   humans = HUMANS;
   beasts = BEASTS;
 
@@ -38,7 +37,9 @@ export class FilterService {
   );
   //Filtro per indirizzo
   filteredAddress = computed(() =>
-    this.humansSignal().sort((a, b) => a.address.state.localeCompare(b.address.state))
+    this.humansSignal().sort((a, b) =>
+      a.address.state.localeCompare(b.address.state)
+    )
   );
 
   // Filtri bestie
@@ -56,24 +57,24 @@ export class FilterService {
           ? a.size.weight - b.size.weight
           : b.size.weight - a.size.weight
       )
-  )
+  );
   //filtro per le diete
   beastDiet(diet: string) {
     return this.beastsSignal().filter((beast) => beast.diet === diet);
   }
 
-//creazione Liste
+  //creazione Liste per le select
   occupationList = computed(() =>
     Array.from(new Set(this.humans.map((human) => human.occupation)))
   );
   speciesList = computed(() =>
     Array.from(new Set(this.beasts.map((beast) => beast.species)))
-  )
+  );
   dietList = computed(() =>
     Array.from(new Set(this.beasts.map((beast) => beast.diet)))
-  )
+  );
 
-//filtrare umani per anni
+  //filtrare umani per anni
   ageRange(age: number) {
     const range = this.selectedAge();
     switch (range) {
@@ -89,7 +90,7 @@ export class FilterService {
         return null;
     }
   }
-//filtrare bestie per altezza
+  //filtrare bestie per altezza
 
   lengthRange(length: number) {
     const range = this.selectedLength();
@@ -106,45 +107,45 @@ export class FilterService {
         return null;
     }
   }
-//ordiniamo il signal ageOrder in modo crescente o decrescente
+  //ordiniamo il signal ageOrder in modo crescente o decrescente
   ageSort() {
     this.ageOrder.set(this.ageOrder() === 'asc' ? 'disc' : 'asc');
   }
 
-//ordiniamo il signal weightOrder in modo crescente o decrescente
+  //ordiniamo il signal weightOrder in modo crescente o decrescente
   weightSort() {
     this.weightOrder.set(this.weightOrder() === 'asc' ? 'disc' : 'asc');
   }
 
-//Metodo per cambiare l'età degli umani
-  changeAgeHuman(change:number){
-    this.humansSignal.update((humans)=>
-    humans.map((human)=>{
-      const newAge = human.age + change
-      if(newAge<1 || newAge>100)
-        return human
-      else{
-        return {...human,age:newAge}
-      }
-    }))
-  }
-//Metodo per cambiare Lunghezza delle bestie
-  changeLengthBeast(change:number){
-    this.beastsSignal.update((beasts)=>
-      beasts.map((beast)=>{
-        const newLength = beast.size.length + change
-        if(newLength<1 || newLength>20)
-          return beast
-        else{
-          return{
-            ...beast,
-            size:{...beast.size,length: newLength}
-          }
+  //Metodo per cambiare l'età degli umani
+  changeAgeHuman(change: number) {
+    this.humansSignal.update((humans) =>
+      humans.map((human) => {
+        const newAge = human.age + change;
+        if (newAge < 1 || newAge > 100) return human;
+        else {
+          return { ...human, age: newAge };
         }
-      }))
-    }
-  
-//Metodi per btn Elimina
+      })
+    );
+  }
+  //Metodo per cambiare Lunghezza delle bestie
+  changeLengthBeast(change: number) {
+    this.beastsSignal.update((beasts) =>
+      beasts.map((beast) => {
+        const newLength = beast.size.length + change;
+        if (newLength < 1 || newLength > 20) return beast;
+        else {
+          return {
+            ...beast,
+            size: { ...beast.size, length: newLength },
+          };
+        }
+      })
+    );
+  }
+
+  //Metodi per btn Elimina
   deleteHuman(toDelete: any) {
     this.humansSignal.set(
       this.humansSignal().filter((beast) => beast !== toDelete)

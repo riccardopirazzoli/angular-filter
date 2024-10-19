@@ -1,7 +1,6 @@
-import { Component, inject,} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterService} from '../services/filter.service';
-
+import { FilterService } from '../services/filter.service';
 
 @Component({
   selector: 'app-filter',
@@ -9,20 +8,25 @@ import { FilterService} from '../services/filter.service';
   imports: [CommonModule],
   template: `
     <div>
-      
-      <input type="text" placeholder="Search" (input)="filterService.onSearch($event)" />
+      <input
+        type="text"
+        placeholder="Search"
+        (input)="filterService.onSearch($event)"
+      />
       <!-- Umani -->
       <h2>Lista di Umani</h2>
-      
+
       <button (click)="filterService.changeAgeHuman(5)">invecchia</button>
       <button (click)="filterService.changeAgeHuman(-5)">ringiovanisci</button>
 
       <!-- select per le occupazioni -->
       <select (change)="filterService.onSelectOccupation($event)">
         <option value="">Occupazioni</option>
-        <option *ngFor="let human of filterService.occupationList()" [value]="human">
+        @for(human of filterService.occupationList();track $index){
+        <option [value]="human">
           {{ human }}
         </option>
+        }
       </select>
 
       <!-- select per l' età -->
@@ -36,7 +40,8 @@ import { FilterService} from '../services/filter.service';
 
       <!-- btn per ordinare età -->
       <button (click)="filterService.ageSort()">
-        Ordina per Età: {{ filterService.ageOrder() === 'asc' ? 'crescente' : 'decrescente' }}
+        Ordina per Età:
+        {{ filterService.ageOrder() === 'asc' ? 'crescente' : 'decrescente' }}
       </button>
 
       <!--lista umani per nome -->
@@ -47,7 +52,6 @@ import { FilterService} from '../services/filter.service';
 
           <!-- btn per elimare  -->
           <button (click)="filterService.deleteHuman(human)">elimina</button>
-
         </li>
         }
       </ul>
@@ -59,9 +63,8 @@ import { FilterService} from '../services/filter.service';
           {{ address.address.state }} - {{ address.address.city }},
           {{ address.address.street }}
 
-         <!-- btn per elimare  -->
+          <!-- btn per elimare  -->
           <button (click)="filterService.deleteHuman(address)">elimina</button>
-
         </li>
         }
       </ul>
@@ -74,9 +77,11 @@ import { FilterService} from '../services/filter.service';
       <!-- select per le specie -->
       <select (change)="filterService.onSelectSpecies($event)">
         <option value="">Specie</option>
-        <option *ngFor="let species of filterService.speciesList()" [value]="species">
-          {{ species }}
+        @for(beast of filterService.speciesList();track $index){
+        <option [value]="beast">
+          {{ beast }}
         </option>
+        }
       </select>
 
       <!-- select per l'altezza -->
@@ -92,7 +97,9 @@ import { FilterService} from '../services/filter.service';
       <!-- btn per oridnare per peso -->
       <button (click)="filterService.weightSort()">
         Ordina per Peso:
-        {{ filterService.weightOrder() === 'asc' ? 'crescente' : 'decrescente' }}
+        {{
+          filterService.weightOrder() === 'asc' ? 'crescente' : 'decrescente'
+        }}
       </button>
 
       <!-- lista bestie per nome -->
@@ -107,13 +114,12 @@ import { FilterService} from '../services/filter.service';
       <hr />
 
       <!-- gruppo diete bestie-->
-      <div *ngFor="let diet of filterService.dietList()">
-        <h3>{{ diet }}</h3>
+      @for(diet of filterService.dietList();track $index){
+      <h3>{{ diet }}</h3>
+      <div>
         <ul>
           @for(beast of filterService.beastDiet(diet);track $index){
-          <li>
-            {{ beast.name }} - {{ beast.species }}
-          </li>
+          <li>{{ beast.name }} - {{ beast.species }}</li>
 
           <!-- btn per eliminare -->
           <button (click)="filterService.deleteBeast(beast)">elimina</button>
@@ -121,10 +127,11 @@ import { FilterService} from '../services/filter.service';
           }
         </ul>
       </div>
+      }
     </div>
   `,
   styles: ``,
 })
 export class FilterComponent {
-  filterService = inject(FilterService)
+  filterService = inject(FilterService);
 }
